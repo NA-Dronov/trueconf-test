@@ -6,7 +6,7 @@ ini_set('display_errors', '0');
 
 $config = [];
 // App Path Settings
-$config['root'] = dir(__DIR__);
+$config['root'] = dirname(__DIR__);
 $config['public'] = $config['root'] . DIRECTORY_SEPARATOR . 'public';
 $config['temp'] = $config['root'] . DIRECTORY_SEPARATOR . 'var';
 // URL Settings
