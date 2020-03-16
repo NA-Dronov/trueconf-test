@@ -4,6 +4,7 @@ use Psr\Container\ContainerInterface;
 use Selective\Config\Configuration;
 use Slim\App;
 use Slim\Factory\AppFactory;
+use Jajo\JSONDB;
 
 return [
     Configuration::class => function () {
@@ -20,4 +21,34 @@ return [
         return $app;
     },
 
+    JSONDB::class => function (ContainerInterface $container) {
+        $location = $container->get(Configuration::class)->getString('json_location');
+
+        $db_tables = [
+            'users'
+        ];
+
+        $create_table = function ($table) use ($location) {
+            $loc = $location . DIRECTORY_SEPARATOR . $table;
+            unlink($loc . '.json');
+            unlink($loc . '_meta.json');
+            $handle_table = fopen($loc . '.json', 'w');
+            $handle_table_meta = fopen($loc . '_meta.json', 'w');
+            fwrite($handle_table, json_encode([]));
+            fwrite($handle_table_meta, json_encode(1));
+            fclose($handle_table);
+            fclose($handle_table_meta);
+        };
+
+        foreach ($db_tables as $table) {
+            if (
+                !file_exists($location . DIRECTORY_SEPARATOR . $table . '_meta.json')
+                || !file_exists($location . DIRECTORY_SEPARATOR . $table . '.json')
+            ) {
+                $create_table($table);
+            }
+        }
+
+        return new JSONDB($container->get(Configuration::class)->getString('json_location'));
+    }
 ];

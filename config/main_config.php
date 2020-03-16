@@ -9,6 +9,7 @@ $config = [];
 $config['root'] = dirname(__DIR__);
 $config['public'] = $config['root'] . DIRECTORY_SEPARATOR . 'public';
 $config['temp'] = $config['root'] . DIRECTORY_SEPARATOR . 'var';
+$config['json_location'] = $config['root'] . DIRECTORY_SEPARATOR . 'database';
 // URL Settings
 $config['base_path'] = '/trueconf-test';
 

@@ -1,13 +1,12 @@
 <?php
 
 use Slim\App;
-use Slim\Http\ServerRequest;
-use Slim\Http\Response;
 
 return function (App $app) {
-    $app->get('/', function (ServerRequest $request, Response $response) {
-        $response->getBody()->write('Hello, World!');
-
-        return $response;
-    });
+    $app->get('/', \App\Action\HomeAction::class);
+    $app->get('/users', \App\Action\UserGetListAction::class);
+    $app->get('/users/{id}', \App\Action\UserGetAction::class);
+    $app->post('/users', \App\Action\UserCreateAction::class);
+    $app->delete('/users/{id}', \App\Action\UserDeleteAction::class);
+    $app->patch('/users/{id}', \App\Action\UserUpdateAction::class);
 };
