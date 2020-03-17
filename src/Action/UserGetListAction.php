@@ -18,7 +18,8 @@ final class UserGetListAction
     public function __invoke(ServerRequest $request, Response $response): Response
     {
         // Invoke the Domain with inputs and retain the result
-        $users = $this->usersListGetter->getUsers();
+        $query = $request->getQueryParams();
+        $users = $this->usersListGetter->getUsers($query);
 
         // Build the HTTP response
         return $response->withJson($users)->withStatus(201);

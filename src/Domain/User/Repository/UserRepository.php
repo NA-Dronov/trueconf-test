@@ -138,7 +138,7 @@ class UserRepository
      *
      * @return array data of found users
      */
-    public function getUsers(): array
+    public function getUsers($params): array
     {
         $fields = [
             'user_id',
@@ -148,9 +148,22 @@ class UserRepository
             'email',
         ];
 
-        $users = $this->jsondb->select(implode(',', $fields))
-            ->from('users.json')
-            ->get();
+        $condition = [];
+
+        foreach ($params as $param_name => $value) {
+            if (in_array($param_name, $fields)) {
+                $condition[$param_name] = $value;
+            }
+        }
+
+        $query = $this->jsondb->select(implode(',', $fields))
+            ->from('users.json');
+
+        if (!empty($condition)) {
+            $query->where($condition, 'AND');
+        }
+
+        $users = $query->get();
 
         return $users;
     }

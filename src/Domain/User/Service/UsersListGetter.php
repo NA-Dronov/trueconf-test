@@ -31,10 +31,10 @@ final class UsersListGetter
      *
      * @return array The users array
      */
-    public function getUsers(): array
+    public function getUsers($query): array
     {
         // Get users
-        $users = $this->repository->getUsers();
+        $users = $this->repository->getUsers($query);
 
         return $users;
     }
