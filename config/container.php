@@ -32,6 +32,11 @@ return [
             $loc = $location . DIRECTORY_SEPARATOR . $table;
             unlink($loc . '.json');
             unlink($loc . '_meta.json');
+
+            if (!is_dir($location)) {
+                mkdir($location);
+            }
+
             $handle_table = fopen($loc . '.json', 'w');
             $handle_table_meta = fopen($loc . '_meta.json', 'w');
             fwrite($handle_table, json_encode([]));
